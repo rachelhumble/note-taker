@@ -1,5 +1,5 @@
 # note-taker
-Unit 11 Express Homework: Note Taker app for hw11
+Unit 11 Express Homework: Note Taker app for hw11 using Express, Node.js & JavaScript
 
 ## User Story
 
@@ -20,3 +20,6 @@ Application should allow users to create and save notes.
 Application should allow users to view previously saved notes.
 
 Application should allow users to delete previously saved notes.
+
+### Contributors: 
+Rachel Humble
