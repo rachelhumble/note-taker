@@ -3,12 +3,6 @@ const fs = require("fs");
 module.exports = function(app) {
   let notes = require("../Develop/db/db.json");
 
-  app.get("/api/notes", (req, res) => {
-    return res.json(notes)
-  })
-
-  console.log(notes);
-  
   app.get("/api/notes/:id", (req, res) => {
     const id = req.params.id;
     let found;
@@ -19,6 +13,25 @@ module.exports = function(app) {
       }
     })
     return res.json(false)
+  })
+
+  app.delete("/api/notes/:id", (req, res) => {
+    const id = req.params.id;
+    // let found;
+    notes.forEach((n, index) => {
+      if(id == n.id){
+        notes.splice(index,1)
+        const notesCopy = notes.slice();
+        let json = JSON.stringify(notesCopy)
+        fs.writeFile("Develop/db/db.json", json, function(err) {
+          if (err) {
+            return console.log(err);
+          }
+          console.log(`Note #${id} deleted!`);
+        })
+      }
+    })
+    res.json(true);
   })
 
   app.post("/api/notes", (req, res) => {
@@ -34,29 +47,12 @@ module.exports = function(app) {
       if (err) {
         return console.log(err);
       }
-      console.log("Note added!");
+      console.log("New note added!");
     })
     res.json(true)
   })
 
-//Still working on this feature:
-  app.delete("/api/notes/:id", (req, res) => {
-    const id = req.params.id;
-    // let found;
-    notes.forEach((n, index) => {
-      if(id == n.id){
-        notes.splice(index,1)
-        const notesCopy = notes.slice();
-        let json = JSON.stringify(notesCopy)
-        fs.writeFile(".Develop/db/db.json", json, function(err) {
-          if (err) {
-            return console.log(err);
-          }
-          console.log("Note deleted!");
-        })
-
-      }
-    })
-    res.json(true);
+  app.get("/api/notes", (req, res) => {
+    return res.json(notes)
   })
 };
